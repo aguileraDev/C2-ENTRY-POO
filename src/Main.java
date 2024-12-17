@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -7,8 +9,11 @@ import java.util.Scanner;
 public class Main {
 
     private static final Scanner input = new Scanner(System.in);
+    private static List<Lodging> lodgingList = new ArrayList<>();
 
     public static void main(String[] args) {
+        lodgingList = getLodgingList();
+
         menu();
     }
 
@@ -41,7 +46,20 @@ public class Main {
 
                 switch (option) {
                     case 1:
-                        searchLodging();
+                        System.out.println("Ingrese la ciudad deseada: ");
+                        String city = input.nextLine();
+                        System.out.println("Ingrese el tipo del alojamiento deseado(Hotel, Apartamento, Finca, Dia de sol): ");
+                        String lodgingName = convertToLodgingType(input.nextLine().toLowerCase());
+                        System.out.println("Ingrese el dia de entrada: ");
+                        Byte entryDay = input.nextByte();
+                        System.out.println("Ingrese el dia de salida: ");
+                        Byte endDay = input.nextByte();
+                        System.out.println("Ingrese la cantidad de adultos: ");
+                        Byte adults = input.nextByte();
+                        System.out.println("Ingrese la cantidad de niños: ");
+                        Byte children = input.nextByte();
+
+                        searchLodging(city, lodgingName, entryDay, endDay, children, adults);
                         break;
                     case 0:
                         System.out.println("Cerrando aplicacion...");
@@ -56,7 +74,42 @@ public class Main {
 
     }
 
-    public static void searchLodging(){
-        System.out.println("Buscando alojamientos disponibles...");
+    private static String convertToLodgingType(String lodgingName){
+        if(lodgingName.equalsIgnoreCase("hotel")) {
+            return "hotel";
+        }else if(lodgingName.equalsIgnoreCase("apartamento")) {
+            return "apartment";
+        }else if (lodgingName.equalsIgnoreCase("finca")) {
+            return "farm";
+        }else{
+            return "sunnyday";
+        }
+
+    }
+
+    public static void searchLodging(String city, String lodgingName, Byte entryDay, Byte endDay, Byte children, Byte adults){
+        System.out.println("------- Buscando alojamientos disponibles --------\n");
+
+        for (Lodging lodging : lodgingList) {
+            if(lodging.getCity().equalsIgnoreCase(city) && lodging.getClass().getSimpleName().equalsIgnoreCase(lodgingName)){
+                System.out.printf("\nOpcion %d%n",lodgingList.indexOf(lodging) + 1);
+                lodging.getDetails();
+            }
+        }
+    }
+
+    public static List<Lodging> getLodgingList(){
+        List<Lodging> lodgingList = new ArrayList<>();
+
+       lodgingList.add(new Hotel("Sunsol Caribe", "Margarita", 4.7F, 100.00));
+       lodgingList.add(new Apartment("Casa Maya Guesthouse", "Margarita", 4.6F, 50.00));
+       lodgingList.add(new Farm("Finca Maribel", "Margarita", 4.8F, 40.00));
+       lodgingList.add(new Hotel("Hotel Hesperia Isla Margarita", "Margarita", 4.5F, 120.00));
+       lodgingList.add(new Hotel("LD Hotel Palm Beach", "Margarita", 4.3F, 80.00));
+       lodgingList.add(new Farm("Posada Bequeve", "Margarita", 4.6F, 60.00));
+       lodgingList.add(new Apartment("Apartamento Kasa Karibe", "Margarita", 5.0F, 70.00));
+       lodgingList.add(new SunnyDay("Cabaña Vacacional Bahía Dorada", "Margarita", 4.8F, 90.00));
+
+       return lodgingList;
     }
 }
