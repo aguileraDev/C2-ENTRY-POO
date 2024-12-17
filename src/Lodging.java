@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,27 @@ public abstract class Lodging {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
+
+    public Double calculateStayCost(LocalDate startDate, LocalDate endDate) {
+        long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+
+        if (numberOfDays <= 0) {
+            throw new IllegalArgumentException("La fecha de salida debe ser posterior a la fecha de inicio.");
+        }
+
+        Double totalCost = pricePerNight * numberOfDays;
+
+        if(startDate.getDayOfMonth() > 24 && endDate.getDayOfMonth()< 31){
+            totalCost *= 1.15;
+        }else if(startDate.getDayOfMonth() >=10 && startDate.getDayOfMonth() <= 15) {
+            totalCost *= 1.10;
+        }else if(startDate.getDayOfMonth() >= 5 && endDate.getDayOfMonth() <=10) {
+            totalCost *= 0.92;
+        }
+
+        return totalCost;
+    }
+
 
     @Override
     public String toString() {

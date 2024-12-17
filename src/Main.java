@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author Manuel Aguilera / @aguileradev
@@ -11,6 +8,7 @@ public class Main {
     private static final Scanner input = new Scanner(System.in);
     private static List<Lodging> lodgingList = new ArrayList<>();
     private static Integer lodgingOption = 0;
+    private static Boolean haveLodging = false;
     private static Byte roomsNeeded = 0;
 
     public static void main(String[] args) {
@@ -52,10 +50,10 @@ public class Main {
                         String city = input.nextLine();
                         System.out.println("Ingrese el tipo del alojamiento deseado(Hotel, Apartamento, Finca, Dia de sol): ");
                         String lodgingType = convertToLodgingType(input.nextLine().toLowerCase());
-                        System.out.println("Ingrese el dia de entrada: ");
-                        Byte entryDay = input.nextByte();
-                        System.out.println("Ingrese el dia de salida: ");
-                        Byte endDay = input.nextByte();
+                        System.out.println("Ingrese la fecha de inicio de la estadia (yyyy-mm-dd): ");
+                        String entryDay = input.nextLine();
+                        System.out.println("Ingrese la fecha del fin de la estadia (yyyy-mm-dd): ");
+                        String endDay = input.nextLine();
                         System.out.println("Ingrese la cantidad de adultos: ");
                         Byte adults = input.nextByte();
                         System.out.println("Ingrese la cantidad de niños: ");
@@ -66,12 +64,21 @@ public class Main {
                         searchLodging(city, lodgingType, entryDay, endDay, children, adults, rooms);
                         break;
                     case 2:
-                        if(lodgingOption > 0){
+                        if(haveLodging){
                             printRoomsByLodging(roomsNeeded);
+                            System.out.println("Ingresa el nombre de la habitacion deseada");
+                            String roomSelected = input.nextLine();
                         }else{
                             System.out.println("Ingresa nombre de hospedaje");
                             String lodgingName = input.nextLine().toLowerCase();
                             printRoomsByLodging(lodgingName);
+                        }
+                        break;
+                    case 3:
+                        if(haveLodging){
+                            registerBooking();
+                        }else {
+                            System.out.println("Debes seleccionar un alojamiento antes de iniciar una reserva. Selecciona la opcion 1");
                         }
                         break;
                     case 0:
@@ -100,7 +107,7 @@ public class Main {
 
     }
 
-    public static void searchLodging(String city, String lodgingType, Byte entryDay, Byte endDay, Byte children, Byte adults, Byte numberOfRooms){
+    public static void searchLodging(String city, String lodgingType, String entryDay, String endDay, Byte children, Byte adults, Byte numberOfRooms){
         System.out.println("------- Buscando alojamientos disponibles --------\n");
 
         for (Lodging lodging : lodgingList) {
@@ -120,6 +127,7 @@ public class Main {
 
         System.out.println("Haz seleccionado");
         System.out.println(lodgingList.get(lodgingOption).toString());
+        haveLodging = true;
         roomsNeeded = numberOfRooms;
 
     }
@@ -142,6 +150,42 @@ public class Main {
                 .toList();
 
         availableRooms.forEach(System.out::println);
+    }
+
+    public static void registerBooking(){
+
+        Lodging selectedLodging = lodgingList.get(lodgingOption);
+
+        System.out.print("Ingrese su nombre: ");
+        String firstName = input.nextLine();
+        System.out.print("Ingrese su apellido: ");
+        String lastName = input.nextLine();
+        System.out.print("Ingrese su correo electrónico: ");
+        String email = input.nextLine();
+        System.out.print("Ingrese su nacionalidad: ");
+        String nationality = input.nextLine();
+        System.out.print("Ingrese su fecha de nacimiento (yyyy-mm-dd): ");
+        String birthDate = input.nextLine();
+        System.out.print("Ingrese su número de teléfono: ");
+        String phoneNumber = input.nextLine();
+        System.out.print("Ingrese su hora aproximada de llegada (HH:mm): ");
+        String estimatedArrivalTime = input.nextLine();
+        System.out.print("Ingrese la cantidad de habitaciones que desea reservar: ");
+        int numberOfRooms = input.nextInt();
+        input.nextLine();
+
+        boolean hasAvailability = selectedLodging.getRooms().stream()
+                .anyMatch(room -> room.getAvaibility() >= numberOfRooms);
+
+        if (!hasAvailability) {
+            System.out.println("No hay suficiente disponibilidad de habitaciones en este alojamiento.");
+            return;
+        }
+
+        Booking booking = new Booking(firstName,lastName,email,nationality,phoneNumber,birthDate,estimatedArrivalTime,selectedLodging,numberOfRooms);
+        booking.reduceRoomAvailability(selectedLodging.getName().toLowerCase(), numberOfRooms);
+
+        System.out.println("Reserva realizada con éxito");
     }
 
     public static List<Lodging> getLodgingList(){
