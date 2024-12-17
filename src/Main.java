@@ -10,8 +10,8 @@ public class Main {
 
     private static final Scanner input = new Scanner(System.in);
     private static List<Lodging> lodgingList = new ArrayList<>();
-    private static Integer lodgingOption;
-    private static Byte roomsNeeded;
+    private static Integer lodgingOption = 0;
+    private static Byte roomsNeeded = 0;
 
     public static void main(String[] args) {
         lodgingList = getLodgingList();
@@ -68,6 +68,10 @@ public class Main {
                     case 2:
                         if(lodgingOption > 0){
                             printRoomsByLodging(roomsNeeded);
+                        }else{
+                            System.out.println("Ingresa nombre de hospedaje");
+                            String lodgingName = input.nextLine().toLowerCase();
+                            printRoomsByLodging(lodgingName);
                         }
                         break;
                     case 0:
@@ -189,8 +193,15 @@ public class Main {
         bahiaDorada.addRoom(new Room("Cabaña Suite", "1 cama King, terraza privada con hamaca, minibar", 250.00, 2));
         bahiaDorada.addRoom(new Room("Cabaña Presidencial", "1 cama King, terraza exclusiva, piscina privada, jacuzzi", 400.00, 1));
 
-        lodgingList.add(bahiaDorada);
+        SunnyDay.Activities snorkeling = new SunnyDay.Activities("Snorkeling", "Explora los arrecifes de coral con guía profesional");
+        SunnyDay.Activities kayaking = new SunnyDay.Activities("Kayak", "Disfruta de un recorrido en kayak por la bahía");
+        SunnyDay.Activities hiking = new SunnyDay.Activities("Senderismo", "Recorre los senderos naturales de la zona");
 
+        bahiaDorada.addActivity(snorkeling);
+        bahiaDorada.addActivity(kayaking);
+        bahiaDorada.addActivity(hiking);
+
+        lodgingList.add(bahiaDorada);
 
         Farm posadaBequeve = new Farm("Posada Bequeve", "Margarita", 4.6F, 60.00);
         posadaBequeve.addRoom(new Room("Habitación Básica", "1 cama Queen, ventilador, baño privado", 70.00, 8));
