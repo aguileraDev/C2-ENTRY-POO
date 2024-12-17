@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * @author Manuel Aguilera / @aguileradev
+ * @author Manuel Aguilera 
  */
 public class Main {
 
