@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Manuel Aguilera / @aguileradev
  */
@@ -7,16 +10,28 @@ public abstract class Lodging {
     private String city;
     private Float rating;
     private Double pricePerNight;
+    private List<Room> rooms;
 
     public Lodging(String name, String city, Float rating, Double pricePerNight) {
         this.name = name;
         this.city = city;
         this.rating = rating;
         this.pricePerNight = pricePerNight;
+        this.rooms = new ArrayList<>();
     }
 
     public abstract void getDetails();
 
+    public void showRooms() {
+        System.out.println("Habitaciones en " + name + ":");
+        for (Room item : rooms) {
+            System.out.println(item);
+        }
+    }
+
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
     public String getName() {
         return name;
     }
@@ -47,5 +62,21 @@ public abstract class Lodging {
 
     public void setPricePerNight(Double pricePerNight) {
         this.pricePerNight = pricePerNight;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + name + "\n" +
+                "Ciudad: " + city + "\n" +
+                "Calificación: " + rating + "\n" +
+                "Precio base por noche: $" + pricePerNight;
     }
 }
