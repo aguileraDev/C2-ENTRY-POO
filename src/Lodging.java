@@ -20,6 +20,10 @@ public abstract class Lodging {
         this.rooms = new ArrayList<>();
     }
 
+    public Lodging() {
+        this.rooms = new ArrayList<>();
+    }
+
     public abstract void getDetails();
 
     public void showRooms() {
