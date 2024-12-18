@@ -3,12 +3,13 @@
  */
 public interface IBooking {
 
-    String updateBooking(String email,
+  /*  String updateBooking(String email,
                          String birthDate,
                          Lodging newLodging,
                          Integer newNumberOfRooms,
-                         String newEstimatedArrivalTime);
+                         String newEstimatedArrivalTime);*/
 
-    void reduceRoomAvailability(String roomName, Integer numberOfRoomsToReduce);
+    Boolean reduceRoomAvailability(Integer id, Integer numberOfRoomsToReduce);
+
 
 }

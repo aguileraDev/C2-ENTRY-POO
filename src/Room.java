@@ -2,12 +2,14 @@
  * @author Manuel Aguilera / @aguileradev
  */
 public class Room {
+    private Integer id;
     private String name;
     private String description;
     private Double pricePerNight;
     private Integer avaibility;
 
-    public Room(String name, String description, Double pricePerNight, Integer avaibility) {
+    public Room(Integer id, String name, String description, Double pricePerNight, Integer avaibility) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
@@ -46,8 +48,13 @@ public class Room {
         this.avaibility = avaibility;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+
     @Override
     public String toString() {
-        return "Habitacion: " + name + "\nDescripcion: " + description + "\nPrecio por noche: " + pricePerNight + "\nDisponibilidad: " + avaibility + "\n";
+        return "Habitacion: " + id + "\nNombre: " + name + "\nDescripcion: " + description + "\nPrecio por noche: " + pricePerNight + "\nDisponibilidad: " + avaibility + "\n";
     }
 }
