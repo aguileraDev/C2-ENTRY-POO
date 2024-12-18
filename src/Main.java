@@ -9,6 +9,7 @@ public class Main {
     private static final Scanner input = new Scanner(System.in);
     private static List<Lodging> lodgingList = new ArrayList<>();
     private static Integer lodgingOption = 0;
+    private static Room roomOption = null;
     private static Boolean haveLodging = false;
     private static Byte roomsNeeded = 0;
 
@@ -79,6 +80,9 @@ public class Main {
                         }else {
                             System.out.println("Debes seleccionar un alojamiento antes de iniciar una reserva. Selecciona la opcion 1");
                         }
+                        break;
+                    case 4:
+                        printBookings();
                         break;
                     case 0:
                         System.out.println("Cerrando aplicacion...");
@@ -178,7 +182,8 @@ public class Main {
         printRoomsByLodging(selectedLodging.getName());
 
         System.out.println("Ingresa el numero de la habitación deseada: ");
-        Integer roomNumber = input.nextInt();
+        roomOption = selectedLodging.getRooms().get(input.nextInt() - 1);
+
         System.out.print("Cuantas habitaciones desea reservar: ");
         Integer numberOfRooms = input.nextInt();
         input.nextLine();
@@ -188,13 +193,33 @@ public class Main {
 
 
         User user = new User(firstName, lastName, email, nationality, phoneNumber, LocalDate.parse(birthDate));
-        Booking booking = new Booking(user, selectedLodging, estimatedArrivalTime, numberOfRooms);
 
-        Boolean attemptSaveBooking = booking.reduceRoomAvailability(roomNumber, numberOfRooms);
+        Booking booking = new Booking(user, selectedLodging, roomOption, estimatedArrivalTime, numberOfRooms);
+
+        Boolean attemptSaveBooking = booking.reduceRoomAvailability(roomOption.getId(), numberOfRooms);
 
         String message = attemptSaveBooking ? ("Reserva realizada con exito"):("No se pudo realizar la reserva");
 
+        selectedLodging.addBooking(booking);
+
         System.out.printf("%s%n", message);
+
+    }
+
+    public static void printBookings(){
+        Boolean existBookings = lodgingList.stream().anyMatch(lodging -> !lodging.getBookings().isEmpty());
+
+        if(!existBookings){
+            System.out.println("No se encontraron reservas realizadas.");
+            return;
+        }
+
+        for (Lodging lodging : lodgingList) {
+            if(!lodging.getBookings().isEmpty()){
+                System.out.println("------- Reservas realizadas en " + lodging.getName() + " --------\n");
+                lodging.getBookings().forEach(System.out::println);
+            }
+        }
 
     }
 

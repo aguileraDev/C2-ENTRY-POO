@@ -7,20 +7,22 @@ public class Booking implements IBooking {
 
     private User user;
     private Lodging lodging;
+    private Room room;
     private String estimatedArrivalTime;
     private Integer numberOfRooms;
 
 
     public Booking(){}
 
-    public Booking(User user, Lodging lodging, String estimatedArrivalTime, Integer numberOfRooms) {
+    public Booking(User user, Lodging lodging, Room room, String estimatedArrivalTime, Integer numberOfRooms) {
         this.user = user;
         this.lodging = lodging;
+        this.room = room;
         this.estimatedArrivalTime = estimatedArrivalTime;
         this.numberOfRooms = numberOfRooms;
     }
 
-  /*   @Override
+/*   @Override
     public String updateBooking(String email, String birthDate, Lodging newLodging, Integer newNumberOfRooms,
                                 String newEstimatedArrivalTime) {
 
@@ -62,5 +64,15 @@ public class Booking implements IBooking {
         bookingSuccessful = true;
 
         return bookingSuccessful;
+    }
+
+    @Override
+    public String toString() {
+        return "\nReserva" +
+                "\n" + user+
+                "\nAlojamiento:" + lodging.getName() +
+                "\nHora de llegada:'" + estimatedArrivalTime + '\'' +
+                "\n" + room +
+                "\nCantidad de habitaciones:" + numberOfRooms;
     }
 }

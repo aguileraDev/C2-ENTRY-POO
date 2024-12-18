@@ -68,4 +68,9 @@ public class User {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+
+    @Override
+    public String toString() {
+        return "Persona: " + name + " " + lastName + "\nCorreo electronico: " + email + "\nNacionalidad: " + nationality + "\nTelefono: " + phoneNumber + "\nFecha de nacimiento: " + birthDate;
+    }
 }

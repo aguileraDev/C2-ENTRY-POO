@@ -1,3 +1,4 @@
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,17 +14,19 @@ public abstract class Lodging {
     private Float rating;
     private Double pricePerNight;
     private List<Room> rooms;
+    private List<Booking> bookings;
 
+    public Lodging() {
+        this.rooms = new ArrayList<>();
+        this.bookings = new ArrayList<>();
+    }
     public Lodging(String name, String city, Float rating, Double pricePerNight) {
         this.name = name;
         this.city = city;
         this.rating = rating;
         this.pricePerNight = pricePerNight;
         this.rooms = new ArrayList<>();
-    }
-
-    public Lodging() {
-        this.rooms = new ArrayList<>();
+        this.bookings = new ArrayList<>();
     }
 
     public abstract void getDetails();
@@ -37,6 +40,34 @@ public abstract class Lodging {
 
     public void addRoom(Room room) {
         rooms.add(room);
+    }
+
+    public Double calculateStayCost(LocalDate startDate, LocalDate endDate) {
+        long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+
+        if (numberOfDays <= 0) {
+            throw new IllegalArgumentException("La fecha de salida debe ser posterior a la fecha de inicio.");
+        }
+
+        Double totalCost = pricePerNight * numberOfDays;
+
+        if(startDate.getDayOfMonth() > 24 && endDate.getDayOfMonth()< 31){
+            totalCost *= 1.15;
+        }else if(startDate.getDayOfMonth() >=10 && startDate.getDayOfMonth() <= 15) {
+            totalCost *= 1.10;
+        }else if(startDate.getDayOfMonth() >= 5 && endDate.getDayOfMonth() <=10) {
+            totalCost *= 0.92;
+        }
+
+        return totalCost;
+    }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
     public String getName() {
         return name;
@@ -77,28 +108,6 @@ public abstract class Lodging {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
-    public Double calculateStayCost(LocalDate startDate, LocalDate endDate) {
-        long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
-
-        if (numberOfDays <= 0) {
-            throw new IllegalArgumentException("La fecha de salida debe ser posterior a la fecha de inicio.");
-        }
-
-        Double totalCost = pricePerNight * numberOfDays;
-
-        if(startDate.getDayOfMonth() > 24 && endDate.getDayOfMonth()< 31){
-            totalCost *= 1.15;
-        }else if(startDate.getDayOfMonth() >=10 && startDate.getDayOfMonth() <= 15) {
-            totalCost *= 1.10;
-        }else if(startDate.getDayOfMonth() >= 5 && endDate.getDayOfMonth() <=10) {
-            totalCost *= 0.92;
-        }
-
-        return totalCost;
-    }
-
-
     @Override
     public String toString() {
         return "Nombre: " + name + "\n" +
@@ -106,4 +115,5 @@ public abstract class Lodging {
                 "Calificación: " + rating + "\n" +
                 "Precio base por noche: $" + pricePerNight;
     }
+
 }
