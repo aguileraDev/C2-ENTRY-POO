@@ -1,3 +1,5 @@
+package org.example;
+
 /**
  * @author Manuel Aguilera / @aguileradev
  */
