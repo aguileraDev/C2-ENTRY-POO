@@ -7,13 +7,18 @@ public class Room {
     private String description;
     private Double pricePerNight;
     private Integer avaibility;
+    private Integer adultCapacity;
+    private Integer childCapacity;
 
-    public Room(Integer id, String name, String description, Double pricePerNight, Integer avaibility) {
+
+    public Room(Integer id, String name, String description, Double pricePerNight, Integer avaibility, Integer adultCapacity, Integer childCapacity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
         this.avaibility = avaibility;
+        this.adultCapacity = adultCapacity;
+        this.childCapacity = childCapacity;
     }
 
     public String getName() {

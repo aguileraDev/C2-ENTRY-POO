@@ -1,13 +1,27 @@
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * @author Manuel Aguilera / @aguileradev
  */
 public class Apartment extends Lodging {
-    public Apartment(String name, String city, Float rating, Double pricePerNight) {
-        super(name, city, rating, pricePerNight);
+    private String floor;
+
+    public Apartment(String name, String category, String city, Float rating, String floor, LocalDate startDateAvailable, LocalDate endDateAvailable) {
+        super(name, category, city, rating, startDateAvailable, endDateAvailable);
+        this.floor = floor;
     }
 
     @Override
     public void getDetails() {
-        System.out.printf("Apartamento: %s%nCiudad: %s%nCalificacion: %.1f%nPrecio por noche: %.2f%n", getName(), getCity(), getRating(), getPricePerNight());
+        System.out.printf("Apartamento: %s%nCiudad: %s%nCalificacion: %.1f%n", getName(), getCity(), getRating());
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 }

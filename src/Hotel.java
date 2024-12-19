@@ -1,16 +1,18 @@
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Manuel Aguilera / @aguileradev
  */
 public class Hotel extends Lodging  {
 
-    public Hotel(String name, String city, Float rating, Double pricePerNight) {
-        super(name, city, rating, pricePerNight);
+    public Hotel(String name, String category, String city, Float rating,LocalDate entryDate, LocalDate endDate) {
+        super(name, category, city, rating, entryDate, endDate);
     }
 
     @Override
     public void getDetails() {
-        System.out.printf("Hotel: %s\nCiudad: %s\nCalificacion: %.2f\nPrecio por noche: $ %.2f\n", getName(), getCity(), getRating(), getPricePerNight());
+        System.out.printf("Hotel: %s\nCiudad: %s\nCalificacion: %.2f\n", getName(), getCity(), getRating());
     }
 
 

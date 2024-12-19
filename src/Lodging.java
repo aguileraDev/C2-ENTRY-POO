@@ -1,4 +1,3 @@
-import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -10,21 +9,30 @@ import java.util.List;
 public abstract class Lodging {
 
     private String name;
+    private String category;
     private String city;
     private Float rating;
-    private Double pricePerNight;
+    private LocalDate startDateAvailable;
+    private LocalDate endDateAvailable;
     private List<Room> rooms;
     private List<Booking> bookings;
+
+    private final Double DISCOUNT_LOW_SEASON = 0.92;
+    private final Double SURCHARGE_HIGH_SEASON = 1.10;
+    private final Double SURCHARGE_LOW_SEASON = 1.15;
 
     public Lodging() {
         this.rooms = new ArrayList<>();
         this.bookings = new ArrayList<>();
     }
-    public Lodging(String name, String city, Float rating, Double pricePerNight) {
+
+    public Lodging(String name, String category, String city, Float rating, LocalDate startDateAvailable, LocalDate endDateAvailable) {
         this.name = name;
+        this.category = category;
         this.city = city;
         this.rating = rating;
-        this.pricePerNight = pricePerNight;
+        this.startDateAvailable = startDateAvailable;
+        this.endDateAvailable = endDateAvailable;
         this.rooms = new ArrayList<>();
         this.bookings = new ArrayList<>();
     }
@@ -42,32 +50,51 @@ public abstract class Lodging {
         rooms.add(room);
     }
 
-    public Double calculateStayCost(LocalDate startDate, LocalDate endDate) {
-        long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+/*    public Double calculateStayCost(LocalDate startDate, LocalDate endDate) {
+
+        final Long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
 
         if (numberOfDays <= 0) {
             throw new IllegalArgumentException("La fecha de salida debe ser posterior a la fecha de inicio.");
         }
 
-        Double totalCost = pricePerNight * numberOfDays;
+        Double totalCost = numberOfDays;
 
         if(startDate.getDayOfMonth() > 24 && endDate.getDayOfMonth()< 31){
-            totalCost *= 1.15;
+            totalCost *= SURCHARGE_HIGH_SEASON;
         }else if(startDate.getDayOfMonth() >=10 && startDate.getDayOfMonth() <= 15) {
-            totalCost *= 1.10;
+            totalCost *= SURCHARGE_LOW_SEASON;
         }else if(startDate.getDayOfMonth() >= 5 && endDate.getDayOfMonth() <=10) {
-            totalCost *= 0.92;
+            totalCost *= DISCOUNT_LOW_SEASON;
         }
 
         return totalCost;
+    }*/
+
+
+    public LocalDate getStartDateAvailable() {
+        return startDateAvailable;
     }
 
-    public void addBooking(Booking booking) {
-        bookings.add(booking);
+    public void setStartDateAvailable(LocalDate startDateAvailable) {
+        this.startDateAvailable = startDateAvailable;
+    }
+
+    public LocalDate getEndDateAvailable() {
+        return endDateAvailable;
+    }
+
+    public void setEndDateAvailable(LocalDate endDateAvailable) {
+        this.endDateAvailable = endDateAvailable;
     }
 
     public List<Booking> getBookings() {
         return bookings;
+    }
+
+
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
     }
     public String getName() {
         return name;
@@ -93,16 +120,16 @@ public abstract class Lodging {
         this.rating = rating;
     }
 
-    public Double getPricePerNight() {
-        return pricePerNight;
-    }
-
-    public void setPricePerNight(Double pricePerNight) {
-        this.pricePerNight = pricePerNight;
-    }
-
     public List<Room> getRooms() {
         return rooms;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void setRooms(List<Room> rooms) {
@@ -112,8 +139,7 @@ public abstract class Lodging {
     public String toString() {
         return "Nombre: " + name + "\n" +
                 "Ciudad: " + city + "\n" +
-                "Calificación: " + rating + "\n" +
-                "Precio base por noche: $" + pricePerNight;
+                "Calificación: " + rating + "\n";
     }
 
 }

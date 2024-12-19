@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,8 @@ public class SunnyDay extends Lodging {
         this.activities = new ArrayList<>();
     }
 
-    public SunnyDay(String name, String city, Float rating, Double pricePerNight) {
-        super(name, city, rating, pricePerNight);
+    public SunnyDay(String name, String category, String city, Float rating, LocalDate startDateAvailable, LocalDate endDateAvailable) {
+        super(name, category, city, rating, startDateAvailable, endDateAvailable);
         this.activities = new ArrayList<>();
     }
 
@@ -29,7 +30,7 @@ public class SunnyDay extends Lodging {
 
     @Override
     public void getDetails() {
-        System.out.printf("\nDia de sol: %s\nCiudad: %s\nCalificacion: %s\nPrecio por noche: %s\nActividades\n %s", getName(), getCity(), getRating(), getPricePerNight(), getActivities().toString());
+        System.out.printf("\nDia de sol: %s\nCiudad: %s\nCalificacion: %s\nActividades\n %s", getName(), getCity(), getRating(), getActivities().toString());
     }
 
     @Override

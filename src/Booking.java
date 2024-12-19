@@ -4,7 +4,6 @@ import java.time.LocalDate;
  * @author Manuel Aguilera / @aguileradev
  */
 public class Booking implements IBooking {
-
     private User user;
     private Lodging lodging;
     private Room room;
@@ -22,20 +21,12 @@ public class Booking implements IBooking {
         this.numberOfRooms = numberOfRooms;
     }
 
-/*   @Override
-    public String updateBooking(String email, String birthDate, Lodging newLodging, Integer newNumberOfRooms,
-                                String newEstimatedArrivalTime) {
+    @Override
+    public String updateBooking(String email, LocalDate birthDate) {
 
-        if (this.email.equals(email) && this.birthDate.equals(LocalDate.parse(birthDate))) {
-            this.lodging = newLodging;
-            this.numberOfRooms = newNumberOfRooms;
-            this.estimatedArrivalTime = newEstimatedArrivalTime;
+        return "Reserva modificada";
 
-            return "Reserva actualizada con éxito";
-        } else {
-            return "Reserva no encontrada para este usuario";
-        }
-    }*/
+    }
 
     @Override
     public Boolean reduceRoomAvailability(Integer id, Integer numberOfRoomsToReduce) {
